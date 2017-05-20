@@ -1,0 +1,1 @@
+WSDL: http://localhost:8080/Service/CustomerSoapService_1.0?wsdl
