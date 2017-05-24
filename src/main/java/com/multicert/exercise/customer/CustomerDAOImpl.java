@@ -21,7 +21,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public List<CustomerEntity> findByNome(String name) {
-        return this.customerRepository.findByNome(name);
+        return this.customerRepository.findByNomeContainingIgnoreCase(name);
     }
 
     @Override

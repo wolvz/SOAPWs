@@ -44,6 +44,11 @@ public class CustomerDAOTest {
     }
 
     @Test
+    public void testFindByEmptyNif() {
+        //caso de insucesso
+    }
+
+    @Test
     public void findByNome() {
         List<CustomerEntity> cList = new ArrayList<>();
         List<CustomerEntity> expectedCList = new ArrayList<>();
@@ -51,7 +56,7 @@ public class CustomerDAOTest {
         cList.add(new CustomerEntity("Nome2", "259717424", "Morada2", "917762537"));
         cList.add(new CustomerEntity("Nome3", "259717425", "Morada3", "917762538"));
         expectedCList.add(new CustomerEntity("Nome1", "259717423", "Morada1", "917762535"));
-        when(customerRepository.findByNome("Nome1")).thenReturn(expectedCList);
+        when(customerRepository.findByNomeContainingIgnoreCase("Nome1")).thenReturn(expectedCList);
 
         List<CustomerEntity> result = customerDAO.findByNome("Nome1");
         assertEquals(1, result.size());

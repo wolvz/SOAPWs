@@ -11,7 +11,8 @@ public interface CustomerRepository extends CrudRepository<CustomerEntity, Long>
 
     CustomerEntity findByNif(String nif);
 
-    List<CustomerEntity> findByNome(String name);
+    //List<CustomerEntity> findByNome(String name);
+    List<CustomerEntity> findByNomeContainingIgnoreCase(String name);
 
     @Transactional
     @Modifying
