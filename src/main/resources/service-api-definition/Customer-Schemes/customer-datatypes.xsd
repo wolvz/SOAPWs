@@ -13,10 +13,10 @@
       
     <s:complexType name="Customer">
         <s:sequence>
-            <s:element name="nome" type="s:string"/>
-            <s:element name="nif" type="s:string"/>
-            <s:element name="morada" type="s:string"/>
-            <s:element name="telefone" type="s:string"/>
+            <s:element name="name" type="s:string"/>
+            <s:element name="vat" type="s:string"/>
+            <s:element name="address" type="s:string"/>
+            <s:element name="phone" type="s:string"/>
         </s:sequence>
     </s:complexType>
       

@@ -9,12 +9,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerRepository extends CrudRepository<CustomerEntity, Long> {
 
-    CustomerEntity findByNif(String nif);
+    CustomerEntity findByVat(String vat);
 
-    //List<CustomerEntity> findByNome(String name);
-    List<CustomerEntity> findByNomeContainingIgnoreCase(String name);
+    List<CustomerEntity> findByNameContainingIgnoreCase(String name);
 
     @Transactional
     @Modifying
-    int deleteByNif(String nif);
+    int deleteByVat(String vat);
 }

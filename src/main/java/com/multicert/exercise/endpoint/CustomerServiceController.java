@@ -27,23 +27,37 @@ public class CustomerServiceController {
     @Autowired
     private ModelMapper modelMapper;
 
-    public CustomerReturn getCustomerByNIF(CustomerRequest customerRequest) throws CustomerException {
-        String nif = customerRequest.getNIF();
-        CustomerEntity ce = customerDao.findByNif(nif);
-        CustomerReturn cr = new CustomerReturn();
+    public CustomerReturn getCustomerByVAT(CustomerRequest customerRequest) throws CustomerException {
 
-        if (ce != null) {
-            Customer c = this.convertToDto(ce);
-            cr.setCustomerResult(c);
+        CustomerReturn cr = new CustomerReturn();
+        String vat = customerRequest.getVAT();
+
+        boolean validVat = true;
+        /* to be implemented */
+        
+        if (!validVat) {
+            cr.setSuccess(false);
+            cr.setErrorCode(100);//invalid vat
+        } else {
+            CustomerEntity ce = customerDao.findByVat(vat);
+
+            if (ce != null) {
+                Customer c = this.convertToDto(ce);
+                cr.setSuccess(true);
+                cr.setCustomerResult(c);
+            } else {
+                cr.setSuccess(false);
+                cr.setErrorCode(101);//user not found
+            }
         }
-        cr.setSuccess(true);
+
         return cr;
     }
 
     public CustomersReturn getCustomersByName(CustomersRequest customersRequest) {
 
         String name = customersRequest.getName();
-        List<CustomerEntity> ceList = customerDao.findByNome(name);
+        List<CustomerEntity> ceList = customerDao.findByName(name);
         CustomersReturn cr = new CustomersReturn();
         ArrayOfCustomer ac = new ArrayOfCustomer();
         for (CustomerEntity ce : ceList) {
@@ -51,12 +65,14 @@ public class CustomerServiceController {
             ac.getCustomer().add(c);
         }
 
-        cr.setCustomersResult(ac);
         cr.setSuccess(true);
+        cr.setCustomersResult(ac);
+
         return cr;
     }
 
     public CustomersReturn getCustomers() {
+
         List<CustomerEntity> ceList = (List<CustomerEntity>) customerDao.findAll();
         CustomersReturn cr = new CustomersReturn();
         ArrayOfCustomer ac = new ArrayOfCustomer();
@@ -65,8 +81,9 @@ public class CustomerServiceController {
             ac.getCustomer().add(c);
         }
 
-        cr.setCustomersResult(ac);
         cr.setSuccess(true);
+        cr.setCustomersResult(ac);
+
         return cr;
     }
 
@@ -76,11 +93,13 @@ public class CustomerServiceController {
         CustomerEntity ce = this.convertToEntity(c);
         AddCustomerReturn acr = new AddCustomerReturn();
         try {
-            CustomerEntity res = this.customerDao.save(ce);
             acr.setSuccess(true);
+            CustomerEntity res = this.customerDao.save(ce);
         } catch (Exception e) {
-            acr.setResponseText(e.getClass().getSimpleName());
+            //save was not possible due to validations (unique vat constraint, for example)
             acr.setSuccess(false);
+            acr.setErrorCode(102);
+            acr.setErrorMessage(e.getMessage());//this error message must be adapted to a friendly message
         }
 
         return acr;
@@ -88,13 +107,17 @@ public class CustomerServiceController {
 
     DeleteCustomerReturn deleteCustomer(DeleteCustomerRequest deleteCustomerRequest) {
 
-        String nif = deleteCustomerRequest.getNIF();
-        int res = this.customerDao.deleteByNif(nif);
+        String vat = deleteCustomerRequest.getVAT();
+        int affectedRows = this.customerDao.deleteByVat(vat);
         DeleteCustomerReturn dcr = new DeleteCustomerReturn();
-        dcr.setSuccess(true);
-        if (res == 0) {
-            dcr.setResponseText("No records were deleted");
+
+        if (affectedRows > 1) {
+            dcr.setSuccess(true);
+        } else {
+            dcr.setSuccess(false);
+            dcr.setErrorCode(103);
         }
+
         return dcr;
     }
 

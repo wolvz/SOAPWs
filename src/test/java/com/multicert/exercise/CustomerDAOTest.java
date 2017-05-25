@@ -35,12 +35,12 @@ public class CustomerDAOTest {
     @Test
     public void testFindByNif() {
         CustomerEntity ce = new CustomerEntity("Nome", "259717423", "Morada", "917762535");
-        when(customerRepository.findByNif("259717423")).thenReturn(ce);
-        CustomerEntity result = customerDAO.findByNif("259717423");
-        assertEquals("Nome", result.getNome());
-        assertEquals("259717423", result.getNif());
-        assertEquals("Morada", result.getMorada());
-        assertEquals("917762535", result.getTelefone());
+        when(customerRepository.findByVat("259717423")).thenReturn(ce);
+        CustomerEntity result = customerDAO.findByVat("259717423");
+        assertEquals("Nome", result.getName());
+        assertEquals("259717423", result.getVat());
+        assertEquals("Morada", result.getAddress());
+        assertEquals("917762535", result.getPhone());
     }
 
     @Test
@@ -56,9 +56,9 @@ public class CustomerDAOTest {
         cList.add(new CustomerEntity("Nome2", "259717424", "Morada2", "917762537"));
         cList.add(new CustomerEntity("Nome3", "259717425", "Morada3", "917762538"));
         expectedCList.add(new CustomerEntity("Nome1", "259717423", "Morada1", "917762535"));
-        when(customerRepository.findByNomeContainingIgnoreCase("Nome1")).thenReturn(expectedCList);
+        when(customerRepository.findByNameContainingIgnoreCase("Nome1")).thenReturn(expectedCList);
 
-        List<CustomerEntity> result = customerDAO.findByNome("Nome1");
+        List<CustomerEntity> result = customerDAO.findByName("Nome1");
         assertEquals(1, result.size());
     }
 
@@ -79,16 +79,16 @@ public class CustomerDAOTest {
         CustomerEntity ce = new CustomerEntity("Nome", "259717423", "Morada", "917762535");
         when(customerRepository.save(ce)).thenReturn(ce);
         CustomerEntity result = customerDAO.save(ce);
-        assertEquals("Nome", result.getNome());
-        assertEquals("259717423", result.getNif());
-        assertEquals("Morada", result.getMorada());
-        assertEquals("917762535", result.getTelefone());
+        assertEquals("Nome", result.getName());
+        assertEquals("259717423", result.getVat());
+        assertEquals("Morada", result.getAddress());
+        assertEquals("917762535", result.getPhone());
     }
 
     @Test
-    public void deleteByNif() {
+    public void deleteByVat() {
         CustomerEntity ce = new CustomerEntity("Nome", "259717423", "Morada", "917762535");
-        customerDAO.deleteByNif("259717423");
-        verify(customerRepository, times(1)).deleteByNif("259717423");
+        customerDAO.deleteByVat("259717423");
+        verify(customerRepository, times(1)).deleteByVat("259717423");
     }
 }

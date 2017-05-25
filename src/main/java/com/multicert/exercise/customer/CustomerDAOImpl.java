@@ -11,18 +11,18 @@ public class CustomerDAOImpl implements CustomerDAO {
     private CustomerRepository customerRepository;
 
     @Override
-    public CustomerEntity findByNif(String nif) {
-        return this.customerRepository.findByNif(nif);
+    public CustomerEntity findByVat(String vat) {
+        return this.customerRepository.findByVat(vat);
     }
 
     @Override
-    public List<CustomerEntity> findByNome(String name) {
-        return this.customerRepository.findByNomeContainingIgnoreCase(name);
+    public List<CustomerEntity> findByName(String name) {
+        return this.customerRepository.findByNameContainingIgnoreCase(name);
     }
 
     @Override
-    public int deleteByNif(String nif) {
-        return this.customerRepository.deleteByNif(nif);
+    public int deleteByVat(String vat) {
+        return this.customerRepository.deleteByVat(vat);
     }
 
     @Override

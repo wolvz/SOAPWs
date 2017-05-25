@@ -23,11 +23,11 @@
 
 
   
-    <wsdl:message name="GetCustomerByNIFIn">
-        <wsdl:part name="parameters" element="general:GetCustomerByNIF"/>
+    <wsdl:message name="GetCustomerByVATIn">
+        <wsdl:part name="parameters" element="general:GetCustomerByVAT"/>
     </wsdl:message>
-    <wsdl:message name="GetCustomerByNIFOut">
-        <wsdl:part name="parameters" element="general:GetCustomerByNIFResponse"/>
+    <wsdl:message name="GetCustomerByVATOut">
+        <wsdl:part name="parameters" element="general:GetCustomerByVATResponse"/>
     </wsdl:message>
   
     <wsdl:message name="GetCustomersByNameIn">
@@ -67,10 +67,10 @@
 
     
     
-        <wsdl:operation name="GetCustomerByNIF">
-            <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Customer By NIF.</wsdl:documentation>
-            <wsdl:input message="customer:GetCustomerByNIFIn"/>
-            <wsdl:output message="customer:GetCustomerByNIFOut"/>
+        <wsdl:operation name="GetCustomerByVAT">
+            <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Customer By VAT.</wsdl:documentation>
+            <wsdl:input message="customer:GetCustomerByVATIn"/>
+            <wsdl:output message="customer:GetCustomerByVATOut"/>
             <wsdl:fault name="CustomerException" message="customer:CustomerException"/>
         </wsdl:operation>
     
@@ -110,8 +110,8 @@
     <wsdl:binding name="CustomerService" type="customer:CustomerService">
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
     
-        <wsdl:operation name="GetCustomerByNIF">
-            <soap:operation soapAction="http://ws/namespace/customerservice/GetCustomerByNIF" style="document"/>
+        <wsdl:operation name="GetCustomerByVAT">
+            <soap:operation soapAction="http://ws/namespace/customerservice/GetCustomerByVAT" style="document"/>
             <wsdl:input>
                 <soap:body use="literal"/>
             </wsdl:input>

@@ -18,8 +18,8 @@ public class CustomerServiceEndpoint implements CustomerService {
     private CustomerServiceController customerServiceController;
 
     @Override
-    public CustomerReturn getCustomerByNIF(CustomerRequest customerRequest) throws CustomerException {
-        return this.customerServiceController.getCustomerByNIF(customerRequest);
+    public CustomerReturn getCustomerByVAT(CustomerRequest customerRequest) throws CustomerException {
+        return this.customerServiceController.getCustomerByVAT(customerRequest);
     }
 
     @Override

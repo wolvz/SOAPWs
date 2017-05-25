@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface CustomerDAO {
 
-    CustomerEntity findByNif(String nif);
+    CustomerEntity findByVat(String vat);
 
-    List<CustomerEntity> findByNome(String name);
+    List<CustomerEntity> findByName(String name);
 
     List<CustomerEntity> findAll();
 
     CustomerEntity save(CustomerEntity ce);
 
-    int deleteByNif(String nif);
+    int deleteByVat(String vat);
 }
