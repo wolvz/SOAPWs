@@ -10,10 +10,6 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public CustomerDAOImpl(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
-
     @Override
     public CustomerEntity findByNif(String nif) {
         return this.customerRepository.findByNif(nif);

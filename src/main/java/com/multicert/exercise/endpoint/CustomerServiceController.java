@@ -2,7 +2,6 @@ package com.multicert.exercise.endpoint;
 
 import com.multicert.exercise.customer.CustomerDAOImpl;
 import com.multicert.exercise.customer.CustomerEntity;
-import com.multicert.exercise.converters.CustomerConverter;
 import ws.namespace.customerservice.CustomerException;
 import ws.namespace.customerservice.datatypes.ArrayOfCustomer;
 import ws.namespace.customerservice.datatypes.Customer;
@@ -15,6 +14,7 @@ import ws.namespace.customerservice.general.CustomersReturn;
 import ws.namespace.customerservice.general.DeleteCustomerRequest;
 import ws.namespace.customerservice.general.DeleteCustomerReturn;
 import java.util.List;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +24,8 @@ public class CustomerServiceController {
     @Autowired
     private CustomerDAOImpl customerDao;
 
-    public CustomerServiceController() {
-    }
+    @Autowired
+    private ModelMapper modelMapper;
 
     public CustomerReturn getCustomerByNIF(CustomerRequest customerRequest) throws CustomerException {
         String nif = customerRequest.getNIF();
@@ -33,7 +33,7 @@ public class CustomerServiceController {
         CustomerReturn cr = new CustomerReturn();
 
         if (ce != null) {
-            Customer c = CustomerConverter.convertCustomerEntityToCustomer(ce);
+            Customer c = this.convertToDto(ce);
             cr.setCustomerResult(c);
         }
         cr.setSuccess(true);
@@ -47,7 +47,7 @@ public class CustomerServiceController {
         CustomersReturn cr = new CustomersReturn();
         ArrayOfCustomer ac = new ArrayOfCustomer();
         for (CustomerEntity ce : ceList) {
-            Customer c = CustomerConverter.convertCustomerEntityToCustomer(ce);
+            Customer c = this.convertToDto(ce);
             ac.getCustomer().add(c);
         }
 
@@ -61,7 +61,7 @@ public class CustomerServiceController {
         CustomersReturn cr = new CustomersReturn();
         ArrayOfCustomer ac = new ArrayOfCustomer();
         for (CustomerEntity ce : ceList) {
-            Customer c = CustomerConverter.convertCustomerEntityToCustomer(ce);
+            Customer c = this.convertToDto(ce);
             ac.getCustomer().add(c);
         }
 
@@ -73,7 +73,7 @@ public class CustomerServiceController {
     AddCustomerReturn addCustomer(AddCustomerRequest addCustomerRequest) {
 
         Customer c = addCustomerRequest.getCustomer();
-        CustomerEntity ce = CustomerConverter.convertCustomerToCustomerEntity(c);
+        CustomerEntity ce = this.convertToEntity(c);
         AddCustomerReturn acr = new AddCustomerReturn();
         try {
             CustomerEntity res = this.customerDao.save(ce);
@@ -96,5 +96,15 @@ public class CustomerServiceController {
             dcr.setResponseText("No records were deleted");
         }
         return dcr;
+    }
+
+    private Customer convertToDto(CustomerEntity customerEntity) {
+        Customer customer = modelMapper.map(customerEntity, Customer.class);
+        return customer;
+    }
+
+    private CustomerEntity convertToEntity(Customer customer) {
+        CustomerEntity customerEntity = modelMapper.map(customer, CustomerEntity.class);
+        return customerEntity;
     }
 }
