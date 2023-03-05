@@ -1,1 +1,1 @@
-WSDL: http://localhost:8080/Service/CustomerSoapService_1.0?wsdl
+„ ?3A%P9„­IYy¯g½áAÕ½5É»ìTT	a©®ìõMõ°]#Ÿ’üYjQvªeÆ”1{íƒÉ
